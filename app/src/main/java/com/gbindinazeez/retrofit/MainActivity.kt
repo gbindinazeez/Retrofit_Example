@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
             viewModel.getCustomPosts(Integer.parseInt(myNumber))
             viewModel.myCustomPosts.observe(this, Observer { response ->
                 if (response.isSuccessful) {
+                    textView.text = response.body()?.toString()
                     response.body()?.forEach {
                         Log.d(TAG,it.userId.toString())
                         Log.d(TAG,it.id.toString())
