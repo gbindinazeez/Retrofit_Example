@@ -48,10 +48,34 @@ class MainActivity : AppCompatActivity() {
             })
         }*/
 
+/*        button.setOnClickListener {
+            val myNumber = editText.text.toString()
+            viewModel.getCustomPosts(Integer.parseInt(myNumber),"id","asc")
+            viewModel.myCustomPosts.observe(this, Observer { response ->
+                if (response.isSuccessful) {
+                    textView.text = response.body()?.toString()
+                    response.body()?.forEach {
+                        Log.d(TAG,it.userId.toString())
+                        Log.d(TAG,it.id.toString())
+                        Log.d(TAG,it.title)
+                        Log.d(TAG,it.body)
+                        Log.d(TAG,"----------------")
+
+                    }
+                }else{
+                    Log.d(TAG,response.errorBody().toString())
+                    textView.text = response.code().toString()
+                }
+            })
+        }
+        */
+        val options: HashMap<String, String> = HashMap()
+        options["_sort"] ="id"
+        options["_order"] ="desc"
         button.setOnClickListener {
             val myNumber = editText.text.toString()
-            viewModel.getCustomPosts(Integer.parseInt(myNumber))
-            viewModel.myCustomPosts.observe(this, Observer { response ->
+            viewModel.getCustomPosts2(Integer.parseInt(myNumber),options)
+            viewModel.myCustomPosts2.observe(this, Observer { response ->
                 if (response.isSuccessful) {
                     textView.text = response.body()?.toString()
                     response.body()?.forEach {
