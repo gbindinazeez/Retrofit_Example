@@ -24,17 +24,20 @@ class MainActivity : AppCompatActivity() {
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel= ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
-        viewModel.getCustomPosts(2,"id","desc")
-        viewModel.myCustomPosts.observe(this, Observer {response ->
-            if (response.isSuccessful){
-                myAdapter.setData(response.body()!!)
-            } else{
-                Toast.makeText(this,response.code(),Toast.LENGTH_SHORT).show()
-            }
-        })
 
+        button.setOnClickListener {
+            val myNumber = editText.text.toString()
+            viewModel.getCustomPosts(Integer.parseInt(myNumber), "id", "asc")
+            viewModel.myCustomPosts.observe(this, Observer { response ->
+                if (response.isSuccessful) {
+                    myAdapter.setData(response.body()!!)
+                } else {
+                    Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
+                }
+            })
 
-        setupRecyclerview()
+            setupRecyclerview()
+        }
     }
 
     private fun setupRecyclerview(){
