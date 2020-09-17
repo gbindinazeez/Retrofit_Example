@@ -22,12 +22,12 @@ class MainActivity : AppCompatActivity() {
         viewModel= ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
 
 //        val myPost = Post(2,2,"gbindinazeez","Android Developer Hotshot")
-        viewModel.pushPost2(2,2,"gbindinazeez","Android Developer Hotshot")
-            viewModel.myPushPost2.observe(this, Observer { response ->
+    viewModel.getPost("1112222")
+            viewModel.myResponse.observe(this, Observer { response ->
                 if (response.isSuccessful) {
                     Log.d(TAG, response.body().toString())
                     Log.d(TAG, response.code().toString())
-                    Log.d(TAG, response.message())
+                    Log.d(TAG, response.headers().toString())
                 } else {
                     Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
                 }

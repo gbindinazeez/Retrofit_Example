@@ -6,8 +6,12 @@ import retrofit2.http.*
 
 interface SimpleApi {
 
+    @Headers(
+        "Authorization:123456789",
+        "Platform:Android"
+    )
     @GET("posts/1")
-    suspend fun getPost(): Response<Post>
+    suspend fun getPost(@Header("Auth") auth: String): Response<Post>
 
     @GET("posts/{postNumber}")
     suspend fun getPost2(
