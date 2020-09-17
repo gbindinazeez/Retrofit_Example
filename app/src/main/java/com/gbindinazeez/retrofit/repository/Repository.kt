@@ -3,7 +3,6 @@ package com.gbindinazeez.retrofit.repository
 import com.gbindinazeez.retrofit.api.RetrofitInstance
 import com.gbindinazeez.retrofit.model.Post
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class Repository {
 

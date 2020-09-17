@@ -1,17 +1,14 @@
 package com.gbindinazeez.retrofit
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gbindinazeez.retrofit.adapter.MyAdapter
 import com.gbindinazeez.retrofit.repository.Repository
 import kotlinx.android.synthetic.main.activity_main.*
-
-private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
