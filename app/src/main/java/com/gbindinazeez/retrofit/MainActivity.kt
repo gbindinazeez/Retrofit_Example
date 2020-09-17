@@ -3,8 +3,11 @@ package com.gbindinazeez.retrofit
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.gbindinazeez.retrofit.adapter.MyAdapter
 import com.gbindinazeez.retrofit.repository.Repository
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -13,7 +16,7 @@ private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
-
+    private val myAdapter by lazy { MyAdapter() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,76 +24,21 @@ class MainActivity : AppCompatActivity() {
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel= ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
-        viewModel.getPost()
-/*        viewModel.myResponse.observe(this, Observer { response ->
-            if (response.isSuccessful) {
-                Log.d(TAG, response.body()?.userId.toString())
-                Log.d(TAG, response.body()?.id.toString())
-                textView.text = response.body()?.title
-                *//*Log.d(TAG, response.body()?.title)*//*
-                Log.d(TAG, response.body()?.body)
-            }else{
-                Log.d(TAG,response.errorBody().toString())
-                textView.text = response.code().toString()
+        viewModel.getCustomPosts(2,"id","desc")
+        viewModel.myCustomPosts.observe(this, Observer {response ->
+            if (response.isSuccessful){
+                myAdapter.setData(response.body()!!)
+            } else{
+                Toast.makeText(this,response.code(),Toast.LENGTH_SHORT).show()
             }
-        })*/
+        })
 
-/*        button.setOnClickListener {
-            val myNumber = editText.text.toString()
-            viewModel.getPost2(Integer.parseInt(myNumber))
-            viewModel.myResponse2.observe(this, Observer { response ->
-                if (response.isSuccessful) {
-                    textView.text = response.body()?.title
-                }else{
-                    Log.d(TAG,response.errorBody().toString())
-                    textView.text = response.code().toString()
-                }
-            })
-        }*/
 
-/*        button.setOnClickListener {
-            val myNumber = editText.text.toString()
-            viewModel.getCustomPosts(Integer.parseInt(myNumber),"id","asc")
-            viewModel.myCustomPosts.observe(this, Observer { response ->
-                if (response.isSuccessful) {
-                    textView.text = response.body()?.toString()
-                    response.body()?.forEach {
-                        Log.d(TAG,it.userId.toString())
-                        Log.d(TAG,it.id.toString())
-                        Log.d(TAG,it.title)
-                        Log.d(TAG,it.body)
-                        Log.d(TAG,"----------------")
+        setupRecyclerview()
+    }
 
-                    }
-                }else{
-                    Log.d(TAG,response.errorBody().toString())
-                    textView.text = response.code().toString()
-                }
-            })
-        }
-        */
-        val options: HashMap<String, String> = HashMap()
-        options["_sort"] ="id"
-        options["_order"] ="desc"
-        button.setOnClickListener {
-            val myNumber = editText.text.toString()
-            viewModel.getCustomPosts2(Integer.parseInt(myNumber),options)
-            viewModel.myCustomPosts2.observe(this, Observer { response ->
-                if (response.isSuccessful) {
-                    textView.text = response.body()?.toString()
-                    response.body()?.forEach {
-                        Log.d(TAG,it.userId.toString())
-                        Log.d(TAG,it.id.toString())
-                        Log.d(TAG,it.title)
-                        Log.d(TAG,it.body)
-                        Log.d(TAG,"----------------")
-
-                    }
-                }else{
-                    Log.d(TAG,response.errorBody().toString())
-                    textView.text = response.code().toString()
-                }
-            })
-        }
+    private fun setupRecyclerview(){
+        recyclerView.adapter = myAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
     }
 }
